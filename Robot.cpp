@@ -46,7 +46,14 @@ private:
 public:
     void set_power();
     string printout();
+    string get_name();
 };
+
+string head::get_name(){
+    stringstream p_out;
+    p_out << "\nHead part used: " << namee;
+    return p_out.str();
+}
 
 void head::set_power(){
     cout << "Please Enter Power in Watts: ";
@@ -67,6 +74,7 @@ private:
 public:
     void set_battery_arms();
     string printout();
+    string get_name();
 };
 
 void torso::set_battery_arms(){
@@ -82,12 +90,19 @@ string torso::printout(){
     return p_out.str();
 };
 
+string torso::get_name(){
+    stringstream p_out;
+    p_out << "\nTorso part used: " << namee;
+    return p_out.str();
+}
+
 class battery: public RobotPart{
 private:
     double max_power;
 public:
     void set_power();
     string printout();
+    string get_name();
 };
 
 void battery::set_power(){
@@ -97,10 +112,16 @@ void battery::set_power(){
 }
 string battery::printout(){
     stringstream p_out;
-    p_out << "Part Name:" << namee
+    p_out << "Part Name: " << namee
     << "\nModel number: #" << model_number;
     return p_out.str();
 };
+
+string battery::get_name(){
+    stringstream p_out;
+    p_out << "\nBattery part used: " << namee;
+    return p_out.str();
+}
 
 class locomotor: public RobotPart{
 private:
@@ -108,6 +129,7 @@ private:
 public:
     void set_max_speed();
     string printout();
+    string get_name();
 };
 
 void locomotor::set_max_speed(){
@@ -122,12 +144,19 @@ string locomotor::printout(){
     return p_out.str();
 };
 
+string locomotor::get_name(){
+    stringstream p_out;
+    p_out << "\nLocomotor part used: " << namee;
+    return p_out.str();
+}
+
 class arm: public RobotPart{
 private:
     double max_power;
 public:
     void set_power_consumed();
     string printout();
+    string get_name();
 };
 void arm::set_power_consumed(){
     cout << "Please set the power consumed: ";
@@ -135,11 +164,15 @@ void arm::set_power_consumed(){
 }
 string arm::printout(){
     stringstream p_out;
-    p_out << "Part Name:" << namee
+    p_out << "\nPart Name:" << namee
     << "\nModel number: #" << model_number;
     return p_out.str();
 };
-
+string arm::get_name(){
+    stringstream p_out;
+    p_out << "\nArm part used: " << namee;
+    return p_out.str();
+}
 /////////////////////////
 //         ROBOT       //
 /////////////////////////
@@ -174,20 +207,20 @@ Robot_Model::Robot_Model(class head Head, class torso Torso, class arm Arm, clas
     this->Locomotor = Locomotor;
     this->Battery = Battery;
     cost = Head.get_cost() + Torso.get_cost() + Arm.get_cost() + Locomotor.get_cost() + Battery.get_cost();
-    cout << "Parts registered correct! Now you can name your robot";
+    cout << "\nParts registered correct! Now you can name your robot";
     cout << "\nModel Name: ";
     getline(cin, name);
     getline(cin, name);
     cout << "\nModel Number: ";
     cin >> model_number;
-    cout << "\n Enter a description for your product";
+    cout << "\nEnter a description for your product ";
     getline(cin, description);
     getline(cin, description);
 }
 
 string Robot_Model::printout(){
     stringstream p_out;
-    p_out << " Robot Name: " << name << "\n Model Number: " << model_number << "\n Price: $" << cost << "\n Weight: " << weight <<"Pounds" << "\n Description: " << description;
+    p_out << "Robot Name: " << name << "\nModel Number: " << model_number << "\nPrice: $" << cost << "\nWeight: " << weight <<" Pounds" << "\nDescription: " << description << "Head: " << Head.get_name() << Torso.get_name() << Arm.get_name() << Locomotor.get_name() << Battery.get_name();
     return p_out.str();
 }
 /////////////////////////
@@ -246,7 +279,7 @@ void Project_Manager::create_robot(){
     int index_h;
     for(int i = 0; i < heads.size(); i++)
     {
-        cout << "Head [#" << i << "]\n";
+        cout << "Head [" << i << "]\n";
         cout << heads[i].printout();
         cout << "\n\n";
     }
@@ -255,7 +288,7 @@ void Project_Manager::create_robot(){
     cout <<"\n\n\n\n\n "; //Clearing room.
     int index_t;
     for(int i= 0; i < torsos.size(); i++){
-        cout << "Torso [#" << i << "]\n";
+        cout << "Torso [" << i << "]\n";
         cout << torsos[i].printout();
         cout << "\n\n";
     }
@@ -264,7 +297,7 @@ void Project_Manager::create_robot(){
     cout <<"\n\n\n\n\n ";
     int index_a;
     for(int i= 0; i < arms.size(); i++){
-        cout << "Arm [#" << i << "]\n";
+        cout << "Arm [" << i << "]\n";
         cout << arms[i].printout();
         cout << "\n\n";
     }
@@ -273,7 +306,7 @@ void Project_Manager::create_robot(){
     cout <<"\n\n\n\n\n ";
     int index_l;
     for(int i= 0; i < locomotors.size(); i++){
-        cout << "Locomotor [#" << i << "]\n";
+        cout << "Locomotor [" << i << "]\n";
         cout << locomotors[i].printout();
         cout << "\n\n";
     }
@@ -282,7 +315,7 @@ void Project_Manager::create_robot(){
     cout <<"\n\n\n\n\n ";
     int index_b;
     for(int i= 0; i < batteries.size(); i++){
-        cout << "Batteries [#" << i << "]\n";
+        cout << "Batteries [" << i << "]\n";
         cout << batteries[i].printout();
         cout << "\n\n";
     }
@@ -310,7 +343,7 @@ void Project_Manager::print_robots(){
 void makepartmenu(){
     int i;
     while (i != 6){
-        cout << "\n What Part Would You Like to Create? \n 1) Head \n 2) Torso \n 3) Battery \n 4) Locomotor \n 5) Arm \n 6) Exit \n\n ";
+        cout << "\nWhat Part Would You Like to Create? \n1) Head \n2) Torso \n3) Battery \n4) Locomotor \n5) Arm \n6) Exit \n\n ";
         cin >> i;
         cout << "\n\n";
         if (i == 1){
@@ -334,7 +367,7 @@ void makepartmenu(){
 void setmainmenu(){
     int i;
     while (i!= 4){
-        cout << "\n What would you like to do \n 1) Create a robot \n 2) Create Robot Part\n 3) Print list of robots \n 4) Exit \n\n\n\n\n\n";
+        cout << "\nWhat would you like to do \n1) Create a robot \n2) Create Robot Part\n3) Print list of robots \n4) Exit \n\n\n\n\n\n";
         cin >> i;
         if (i==1){
             project.create_robot();
