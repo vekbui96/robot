@@ -1,2 +1,1 @@
-I used github, it should be located in this file
-
+Using Objectes, I made a POS system used typically in food resturants to order food.
